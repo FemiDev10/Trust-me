@@ -1,0 +1,67 @@
+/* ---------- Backdrop ---------- */
+.tm-backdrop { position: absolute; inset: 0; overflow: hidden; pointer-events: none; background: radial-gradient(120% 90% at 50% 18%, #0a3a3f 0%, var(--tm-bg) 40%, var(--tm-void) 100%); }
+.tm-backdrop__glow { position: absolute; border-radius: 50%; filter: blur(60px); }
+.tm-backdrop__glow--a { width: 70vmax; height: 70vmax; left: 15%; top: -25%; background: radial-gradient(circle, rgba(62, 230, 224, 0.28), transparent 62%); }
+.tm-backdrop__glow--b { width: 55vmax; height: 55vmax; right: -18%; bottom: -30%; background: radial-gradient(circle, rgba(255, 59, 59, 0.16), transparent 60%); }
+.tm-backdrop--alarm .tm-backdrop__glow--a { background: radial-gradient(circle, rgba(255, 59, 59, 0.3), transparent 62%); }
+.tm-backdrop__halftone {
+  position: absolute; inset: -40px;
+  background-image: radial-gradient(rgba(62, 230, 224, 0.22) 1.3px, transparent 1.5px);
+  background-size: 9px 9px;
+  -webkit-mask-image: radial-gradient(90% 70% at 80% 100%, #000 0%, transparent 65%), radial-gradient(60% 50% at 0% 0%, #000 0%, transparent 70%);
+  mask-image: radial-gradient(90% 70% at 80% 100%, #000 0%, transparent 65%), radial-gradient(60% 50% at 0% 0%, #000 0%, transparent 70%);
+  animation: tm-halftone-drift 24s linear infinite;
+  opacity: 0.8;
+}
+@keyframes tm-halftone-drift { to { transform: translate(36px, -27px); } }
+.tm-backdrop__scan { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0 1px, transparent 1px 4px); mix-blend-mode: multiply; opacity: 0.5; }
+.tm-backdrop__vignette { position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%); }
+
+/* ---------- Corner controls (sound + help) ---------- */
+.tm-corner { position: fixed; left: 16px; bottom: 16px; z-index: 900; display: flex; flex-direction: row-reverse; gap: 8px; align-items: flex-start; }
+.tm-corner__sound { position: relative; }
+.tm-mute {
+  width: 44px; height: 44px; border-radius: 50%; padding: 0;
+  display: grid; place-items: center; cursor: pointer;
+  color: var(--tm-text); background: var(--tm-surface-2);
+  border: var(--tm-outline); box-shadow: 0 4px 0 var(--tm-ink);
+}
+.tm-mute:focus-visible { outline: 3px solid var(--tm-ai); outline-offset: 3px; }
+.tm-help { font-family: var(--tm-font-display); font-size: 20px; background: var(--tm-warn); color: var(--tm-ink); }
+/* in game: top-right. GameScreen reserves a slot beside its Home Health meter */
+.tm-app--ingame .tm-corner { left: auto; bottom: auto; right: 16px; top: 16px; flex-direction: row-reverse; }
+.tm-app--ingame .tm-mute { width: 36px; height: 36px; }
+/* U2 screens: a slim column in the right gutter, under their Home Health bar */
+.tm-app--ingame:not(.tm-app--play) .tm-corner { right: 10px; top: 60px; flex-direction: row-reverse; gap: 6px; }
+.tm-app--ingame:not(.tm-app--play) .tm-mute { width: 32px; height: 32px; }
+.tm-app--ingame:not(.tm-app--play) .tm-help { font-size: 17px; }
+
+.tm-soundpop {
+  position: absolute; bottom: calc(100% + 10px); left: 0; width: 210px; padding: 12px; border-radius: 14px;
+  background: var(--tm-surface); border: var(--tm-outline); box-shadow: 0 5px 0 var(--tm-ink), 0 18px 40px rgba(0, 0, 0, 0.5);
+  display: grid; gap: 8px; transform-origin: 0 100%;
+}
+.tm-app--ingame .tm-soundpop { bottom: auto; top: calc(100% + 10px); left: auto; right: 0; transform-origin: 100% 0; }
+.tm-soundpop__title { font-size: 12px; }
+.tm-toggle { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 10px; cursor: pointer; background: rgba(3, 16, 18, 0.45); border: 1.5px solid var(--tm-line); color: var(--tm-text); }
+.tm-toggle:focus-visible { outline: 3px solid var(--tm-ai); outline-offset: 2px; }
+.tm-toggle__label { font-family: var(--tm-font-label); font-weight: 800; font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase; }
+.tm-toggle__track { width: 42px; height: 24px; border-radius: 999px; padding: 3px; display: flex; justify-content: flex-start; background: var(--tm-ink); border: 2px solid var(--tm-ink); }
+.tm-toggle.is-on .tm-toggle__track { justify-content: flex-end; background: var(--tm-ai); }
+.tm-toggle__knob { width: 14px; height: 14px; border-radius: 50%; background: var(--tm-text-3); display: block; }
+.tm-toggle.is-on .tm-toggle__knob { background: var(--tm-ink); }
+
+/* ---------- Screen wrapper ---------- */
+.tm-screen { position: absolute; inset: 0; overflow: hidden; }
+
+/* ---------- Fallback phase screens (until U2 lands) ---------- */
+.tm-fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
+.tm-fallback__card { position: relative; width: min(860px, 100%); max-height: calc(100vh - 48px); overflow: auto; padding: 28px 32px; }
+.tm-fallback__title { font-size: clamp(40px, 6vw, 72px); margin: 4px 0 12px; }
+.tm-fallback__title--danger { color: var(--tm-danger); text-shadow: 3px 3px 0 var(--tm-ink); }
+.tm-fallback__row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; align-items: center; }
+.tm-fallback__transcript { max-height: 240px; overflow: auto; padding: 12px 14px; margin: 12px 0; display: grid; gap: 6px; font-size: 15px; }
+.tm-fallback__line b { font-family: var(--tm-font-label); letter-spacing: 0.05em; }
+.tm-fallback__section { margin-top: 16px; }
+.tm-fallback__timeline { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 8px; }
+.tm-fallback__timeline small { color: var(--tm-text-2); }

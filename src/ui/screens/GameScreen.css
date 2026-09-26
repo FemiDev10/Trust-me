@@ -1,0 +1,127 @@
+/* ================= GameScreen layout ================= */
+.game {
+  --rail-w: 236px;
+  --dock-h: 112px;
+  --gutter: 18px;
+  position: absolute; inset: 0; overflow: hidden;
+  user-select: none;
+}
+@media (max-width: 1180px) { .game { --rail-w: 196px; --gutter: 12px; } }
+
+.game__scene { position: absolute; inset: 0; }
+.game__loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--tm-text-3); }
+.game__vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(3, 16, 18, 0.7) 0%, transparent 18%, transparent 74%, rgba(3, 16, 18, 0.85) 100%),
+    radial-gradient(130% 110% at 50% 45%, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+}
+.game--investigate .game__vignette {
+  background:
+    linear-gradient(180deg, rgba(3, 16, 18, 0.75) 0%, transparent 18%, transparent 72%, rgba(3, 16, 18, 0.9) 100%),
+    radial-gradient(120% 100% at 50% 45%, transparent 50%, rgba(0, 10, 20, 0.6) 100%);
+}
+
+.game__hud { position: absolute; inset: 0; pointer-events: none; }
+.game__hud > * { pointer-events: none; }
+.game__hud button, .game__hud .hud-robot, .game__hud .hud-task, .game__hud .hud-hint, .game__hud .results, .game__hud .intro, .game__hud .watching { pointer-events: auto; }
+
+/* top bar */
+.game__top {
+  position: absolute; top: var(--gutter); left: var(--gutter); right: calc(var(--gutter) + 92px);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 16px;
+}
+.game__topLeft { justify-self: start; }
+.game__topCentre { justify-self: center; }
+.game__topRight { justify-self: end; }
+
+/* banner under the day counter */
+.game__banner {
+  position: absolute; top: 132px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(560px, 60vw);
+}
+
+/* right rail */
+.game__rail {
+  position: absolute; right: var(--gutter); top: 108px; bottom: calc(var(--dock-h) + var(--gutter) + 12px);
+  width: var(--rail-w);
+}
+.game__railHint { position: absolute; right: calc(100% + 14px); top: 36px; width: 230px; }
+
+/* centre overlays */
+.game__centre, .game__centreLow {
+  position: absolute; left: var(--gutter); right: calc(var(--rail-w) + var(--gutter) * 2);
+  display: grid; place-items: center; pointer-events: none;
+}
+.game__centre { top: 100px; bottom: calc(var(--dock-h) + var(--gutter)); }
+.game__centreLow { bottom: calc(var(--dock-h) + var(--gutter) + 16px); }
+
+/* dock */
+.game__dock {
+  position: absolute; left: var(--gutter); right: var(--gutter); bottom: var(--gutter);
+  height: var(--dock-h);
+  display: grid; grid-template-columns: auto 1fr auto auto; align-items: stretch; gap: 14px;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, rgba(17, 73, 79, 0.92), rgba(11, 58, 63, 0.95));
+  border: var(--tm-outline);
+  border-radius: 20px;
+  box-shadow: 0 6px 0 var(--tm-ink), 0 24px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  pointer-events: auto;
+}
+.game__dock::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0.35;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.35) 1px, transparent 1.2px); background-size: 6px 6px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 40%, #000); mask-image: linear-gradient(90deg, transparent 40%, #000);
+}
+.game__dockActions { position: relative; min-width: 0; }
+.game__dockTray { position: relative; }
+.game__dockMeeting { position: relative; }
+.game__dockHint { position: absolute; bottom: calc(100% + 18px); left: 0; width: 280px; }
+.game__trayHint { position: absolute; bottom: calc(100% + 18px); right: 0; width: 220px; }
+.game__meetingHint { position: absolute; bottom: calc(100% + 18px); right: 0; width: 220px; }
+
+/* evidence reveal */
+.reveal {
+  position: absolute; inset: 0; z-index: 60;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(62, 230, 224, 0.16), rgba(3, 16, 18, 0.72));
+  perspective: 1200px; cursor: pointer;
+}
+.reveal { gap: 22px; cursor: default; background: rgba(3, 16, 18, 0.78); }
+.reveal__label { font-size: 40px; color: var(--tm-paper); text-shadow: 3px 3px 0 var(--tm-ink); }
+.reveal__actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.reveal__file {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  font-family: var(--tm-font-display); font-size: 24px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 10px 22px; background: #e2bf82; color: var(--tm-paper-ink);
+  border: 3px solid var(--tm-ink); border-radius: 4px; box-shadow: 5px 6px 0 var(--tm-ink);
+}
+.reveal__file:hover { background: #ebcb92; }
+.reveal__file:active { box-shadow: 2px 3px 0 var(--tm-ink); transform: translate(2px, 2px); }
+.reveal__file:focus-visible { outline: 3px solid var(--tm-ai); outline-offset: 4px; }
+.reveal__tap { color: var(--tm-text-2); font-size: 12px; }
+
+/* toast */
+.game__toast {
+  position: absolute; left: 50%; bottom: calc(var(--dock-h) + var(--gutter) + 20px);
+  z-index: 80; padding: 10px 18px; border-radius: 999px;
+  background: var(--tm-danger); color: #fff; border: var(--tm-outline); box-shadow: 0 4px 0 var(--tm-ink);
+  font-family: var(--tm-font-label); font-weight: 700; letter-spacing: 0.04em;
+}
+
+.game__topCentre { display: flex; flex-direction: column; align-items: center; }
+.game__goalHint { margin-top: 12px; width: 300px; }
+
+
+/* simplified flow */
+.game__topLeft { max-width: calc(50vw - 230px); min-width: 0; }
+.game__topLeft .hud-task { max-width: 100%; }
+.game__objRow { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.game__objRow .obj { margin-top: 0; }
+.game__case {
+  white-space: nowrap; pointer-events: none;
+  font-family: var(--tm-font-display); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 9px; color: var(--tm-paper-ink); background: #e2bf82; border: 2px solid var(--tm-ink); box-shadow: 2px 3px 0 var(--tm-ink);
+}
+.game__health { position: relative; }
+.game__centre--low { top: auto; bottom: calc(var(--dock-h) + var(--gutter) + 12px); }

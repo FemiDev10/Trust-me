@@ -1,0 +1,8 @@
+/* App-level globals (tokens.css holds the shared design system). */
+#root { position: relative; overflow: hidden; min-width: 1024px; min-height: 600px; }
+.tm-app { position: absolute; inset: 0; }
+button { font: inherit; }
+::selection { background: var(--tm-ai); color: var(--tm-ink); }
+/* Debug UI (/?debug) needs a scrolling page. */
+body.tm-debug { overflow: auto; }
+body.tm-debug #root { overflow: visible; height: auto; min-width: 0; }

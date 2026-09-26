@@ -1,0 +1,84 @@
+/* ================= Role reveal: a dossier on the desk ================= */
+.reveal-role { position: absolute; inset: 0; overflow: hidden; display: grid; place-items: center; background: #1d3a37; }
+.reveal-role__desk {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(92deg, rgba(0, 0, 0, 0.12) 0 2px, transparent 2px 46px),
+    linear-gradient(180deg, #24433f, #16302d);
+}
+.reveal-role__stage { position: relative; z-index: 1; display: flex; align-items: center; gap: 48px; padding: 24px; }
+
+.reveal-role__cardWrap { perspective: 1400px; cursor: pointer; flex: none; }
+.reveal-role__card { position: relative; width: 390px; height: 530px; transform-style: preserve-3d; }
+.reveal-role__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+/* closed manila folder */
+.reveal-role__back {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  background: #e2bf82; border: 3px solid var(--tm-ink); border-radius: 4px 10px 10px 10px; box-shadow: 8px 10px 0 var(--tm-ink);
+}
+.reveal-role__backTab { position: absolute; top: -30px; left: 18px; padding: 4px 18px; background: #e2bf82; border: 3px solid var(--tm-ink); border-bottom: none; border-radius: 8px 8px 0 0; font-family: ui-monospace, 'Courier New', monospace; font-weight: 700; font-size: 14px; color: var(--tm-paper-ink); }
+.reveal-role__backStamp { font-family: var(--tm-font-display); font-size: 58px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tm-danger-deep); border: 6px solid var(--tm-danger-deep); border-radius: 6px; padding: 0 18px; transform: rotate(-12deg); mix-blend-mode: multiply; }
+.reveal-role__backNote { font-family: var(--tm-font-label); font-weight: 700; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5b4a2c; }
+
+/* the page */
+.reveal-role__front {
+  transform: rotateY(180deg); padding: 22px 26px; display: flex; flex-direction: column;
+  background: var(--tm-paper); color: var(--tm-paper-ink); border: 3px solid var(--tm-ink); border-radius: 4px; box-shadow: 8px 10px 0 var(--tm-ink);
+  background-image: repeating-linear-gradient(180deg, transparent 0 27px, rgba(29, 26, 22, 0.08) 27px 28px);
+}
+.reveal-role__head { display: flex; justify-content: space-between; font-family: ui-monospace, 'Courier New', monospace; font-size: 12px; font-weight: 700; border-bottom: 2px solid var(--tm-paper-ink); padding-bottom: 6px; }
+.reveal-role__you { font-size: 50px; line-height: 0.92; color: var(--tm-paper-ink); margin: 14px 0 12px; }
+.reveal-role__you span { font-size: 78px; color: var(--tm-danger-deep); }
+.reveal-role__fields { margin: 0; display: grid; gap: 8px; }
+.reveal-role__fields div { display: grid; grid-template-columns: 82px 1fr; gap: 10px; align-items: baseline; }
+.reveal-role__fields dt { font-family: var(--tm-font-label); font-weight: 800; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tm-paper-muted); }
+.reveal-role__fields dd { margin: 0; font-family: ui-monospace, 'Courier New', monospace; font-size: 14px; line-height: 1.35; }
+.reveal-role__fields b { color: var(--tm-danger-deep); }
+.reveal-role__stamp {
+  position: absolute; right: 18px; top: 58px; transform: rotate(9deg);
+  font-family: var(--tm-font-display); font-size: 26px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--tm-danger-deep); border: 4px solid var(--tm-danger-deep); border-radius: 4px; padding: 0 10px; opacity: 0.8; mix-blend-mode: multiply;
+}
+
+/* suspects: mugshot cards */
+.reveal-role__side { display: flex; flex-direction: column; gap: 18px; max-width: 660px; }
+.reveal-role__suspects { font-family: var(--tm-font-display); font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--tm-paper); }
+.reveal-role__cast { display: grid; grid-template-columns: repeat(var(--n, 5), 1fr); gap: 14px; }
+.reveal-role__bot {
+  display: flex; flex-direction: column; align-items: center; gap: 0; padding: 8px 8px 10px; text-align: center;
+  background: var(--tm-paper); border: 2px solid var(--tm-ink); box-shadow: 4px 5px 0 var(--tm-ink);
+  transform: rotate(var(--tilt));
+}
+.reveal-role__portrait {
+  width: 100%; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden;
+  background: #2f5b57 repeating-linear-gradient(to top, rgba(3, 16, 18, 0.45) 0 1.5px, transparent 1.5px 18px);
+  border: 2px solid var(--tm-ink);
+}
+.reveal-role__plate { display: flex; align-items: baseline; gap: 5px; margin-top: 6px; padding: 2px 8px; background: #0d0f10; color: #f3efe6; border-bottom: 3px solid var(--rc); }
+.reveal-role__plate span { font-size: 17px; letter-spacing: 0.06em; }
+.reveal-role__plate small { font-family: var(--tm-font-label); font-weight: 700; font-size: 11px; color: #b9b3a6; }
+.reveal-role__vibe { margin-top: 6px; font-size: 12px; line-height: 1.2; color: var(--tm-paper-muted); min-height: 2.4em; }
+
+.reveal-role__actions { display: flex; align-items: center; gap: 22px; margin-top: 6px; }
+.reveal-role__go {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; cursor: pointer;
+  padding: 12px 20px 10px; background: #e2bf82; color: var(--tm-paper-ink);
+  border: 3px solid var(--tm-ink); border-radius: 4px; box-shadow: 6px 7px 0 var(--tm-ink);
+}
+.reveal-role__go:active { box-shadow: 2px 3px 0 var(--tm-ink); }
+.reveal-role__go:focus-visible { outline: 3px solid var(--tm-ai); outline-offset: 4px; }
+.reveal-role__goStamp { font-family: var(--tm-font-display); font-size: 30px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm-danger-deep); border: 4px solid var(--tm-danger-deep); border-radius: 4px; padding: 0 12px; transform: rotate(-2deg); mix-blend-mode: multiply; }
+.reveal-role__go small { font-family: var(--tm-font-label); font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5b4a2c; margin-top: 4px; }
+.reveal-role__help { cursor: pointer; background: none; border: none; padding: 4px 0; color: var(--tm-paper); font-family: var(--tm-font-label); font-weight: 600; font-size: 16px; letter-spacing: 0.03em; }
+.reveal-role__help b { text-decoration: underline; text-underline-offset: 3px; }
+.reveal-role__help:hover { color: #fff; }
+.reveal-role__help:focus-visible { outline: 3px solid var(--tm-ai); outline-offset: 3px; }
+
+@media (max-width: 1180px) {
+  .reveal-role__stage { gap: 26px; }
+  .reveal-role__card { width: 310px; height: 470px; }
+  .reveal-role__you { font-size: 40px; } .reveal-role__you span { font-size: 62px; }
+  .reveal-role__fields dd { font-size: 13px; }
+  .reveal-role__side { max-width: 560px; }
+}
