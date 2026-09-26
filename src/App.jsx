@@ -140,7 +140,7 @@ function GameApp() {
             {content}
           </motion.div>
         </AnimatePresence>
-        <CornerControls onHelp={openHelp} showHelp={Boolean(phase)} />
+        <CornerControls onHelp={openHelp} showHelp={Boolean(phase)} onQuit={phase && phase !== 'ending' ? quitToTitle : undefined} />
         <HowToPlay open={helpOpen} onClose={() => setHelpOpen(false)} />
       </div>
     </MotionConfig>

@@ -28,7 +28,7 @@
 
 /* top bar */
 .game__top {
-  position: absolute; top: var(--gutter); left: var(--gutter); right: calc(var(--gutter) + 92px);
+  position: absolute; top: var(--gutter); left: var(--gutter); right: calc(var(--gutter) + 132px);
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 16px;
 }
 .game__topLeft { justify-self: start; }

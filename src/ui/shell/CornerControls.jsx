@@ -21,19 +21,27 @@ function Toggle({ label, on, onChange }) {
   );
 }
 
-export default function CornerControls({ onHelp, showHelp = true }) {
+const DoorIcon = () => (
+  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M14 4H6v16h8" /><path d="M11 12h10" /><path d="M18 9l3 3-3 3" />
+  </svg>
+);
+
+export default function CornerControls({ onHelp, showHelp = true, onQuit }) {
   const [state, setState] = useState(() => ({ sfxMuted: isMuted(), musicMuted: isMusicMuted() }));
   const [open, setOpen] = useState(false);
+  const [confirmQuit, setConfirmQuit] = useState(false);
   const ref = useRef(null);
   useEffect(() => onMuteChange(setState), []);
   useEffect(() => {
-    if (!open) return undefined;
-    const onDown = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    const onKey = (e) => e.key === 'Escape' && setOpen(false);
+    if (!open && !confirmQuit) return undefined;
+    const close = () => { setOpen(false); setConfirmQuit(false); };
+    const onDown = (e) => { if (ref.current && !ref.current.contains(e.target)) close(); };
+    const onKey = (e) => e.key === 'Escape' && close();
     document.addEventListener('pointerdown', onDown);
     window.addEventListener('keydown', onKey);
     return () => { document.removeEventListener('pointerdown', onDown); window.removeEventListener('keydown', onKey); };
-  }, [open]);
+  }, [open, confirmQuit]);
 
   const allOff = state.sfxMuted && state.musicMuted;
   return (
@@ -79,6 +87,42 @@ export default function CornerControls({ onHelp, showHelp = true }) {
         >
           ?
         </motion.button>
+      )}
+      {onQuit && (
+        <div className="tm-corner__sound">
+          <motion.button
+            type="button"
+            className="tm-mute tm-quit"
+            onClick={() => { play('click'); setOpen(false); setConfirmQuit((q) => !q); }}
+            whileHover={{ scale: 1.08, rotate: -4 }}
+            whileTap={{ scale: 0.9 }}
+            aria-expanded={confirmQuit}
+            aria-label="Leave this case"
+            title="Leave this case"
+          >
+            <DoorIcon />
+          </motion.button>
+          <AnimatePresence>
+            {confirmQuit && (
+              <motion.div
+                className="tm-soundpop tm-quitpop"
+                role="dialog"
+                aria-label="Leave this case?"
+                initial={{ opacity: 0, scale: 0.8, y: -6 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.85, y: -4 }}
+                transition={{ type: 'spring', stiffness: 520, damping: 30 }}
+              >
+                <div className="tm-label tm-soundpop__title">Leave this case?</div>
+                <p className="tm-quitpop__text">Your progress is saved. Pick it up again with Continue case on the title screen.</p>
+                <div className="tm-quitpop__row">
+                  <button type="button" className="tm-btn tm-btn--ghost tm-quitpop__btn" onClick={() => setConfirmQuit(false)}>Stay</button>
+                  <button type="button" className="tm-btn tm-btn--danger tm-quitpop__btn" onClick={() => { setConfirmQuit(false); onQuit(); }}>Leave</button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       )}
     </div>
   );
